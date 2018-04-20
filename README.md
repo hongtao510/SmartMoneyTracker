@@ -14,8 +14,7 @@ Options transaction flow data handling requirement: high-throughput, low-latency
 Proposed solution: Kafka + Flink
 
 ### Proposed architecture
-![alt text](SmartMoneyTracker/image/flow_chart.png "Proposed architecture")
-
+![alt text](image/flow_chart.png "Proposed architecture")
 
 
 [infinite leverage]: <https://www.quora.com/How-much-leverage-can-I-expect-from-an-options-trade>
