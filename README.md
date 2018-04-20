@@ -14,6 +14,7 @@ Options transaction flow data handling requirement: high-throughput, low-latency
 Proposed solution: Kafka + Flink
 
 ### Proposed architecture
+![alt text](SmartMoneyTracker/image/flow_chart.png "Proposed architecture")
 
 
 
