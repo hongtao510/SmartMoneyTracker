@@ -18,7 +18,7 @@ Options are one of the most versatile trading instruments, which offer a high-le
  * Learn a number of new tools/platform in a short term, and use them to solve a real world problem.
 
 ### Proposed architecture
-![alt text](image/flow_chart.png "Proposed architecture")
+![alt text](image/flow_chart1.png "Proposed architecture")
 
 ### What are the (quantitative) specifications/constraints for this project?
  * Methods used to unusual options activity are based on Donoho, Steve. "Early detection of insider trading in option markets." Proceedings of the tenth ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2004.
