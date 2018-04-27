@@ -12,7 +12,7 @@ Options are one of the most versatile trading instruments, which offer a high-le
 
 ### Which technologies are well-suited to solve those challenges? 
  * Options transaction flow data handling requirement: high-throughput, low-latency platform for handling real-time data feeds. 
-   * Proposed solution: Kafka + Flink
+   * Proposed solution: Kafka + Spark Streaming
 
 ### What are the primary engineering challenges? Why would a Data Engineering Hiring Manager care about this project?
  * Learn and understand a number of new tools/platforms in a three weeks, as well as be able to employ them to solve a real world problem.
