@@ -49,7 +49,6 @@ def main():
     producer = KafkaProducer(bootstrap_servers = ['localhost:9092'])
 
     topic = 'th-topic'
-    ount = 0
 
     for k in range(10):
         # print test_sub.loc[k,], "\n"
@@ -60,7 +59,6 @@ def main():
         test_sub['time_sent_kafka'] = time_field
         producer.send(topic, time_field.encode('utf-8'))
         # print ("streaming ", count, "_", userid_field)
-        count += 1
     
     
     # block until all async messages are sent
