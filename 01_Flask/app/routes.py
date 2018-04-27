@@ -24,7 +24,8 @@ def index():
     rows = session.execute("SELECT * FROM optionflowstreaming LIMIT 10")
     total_n = session.execute("SELECT COUNT(*) FROM optionflowstreaming;")
 
-    df = pd.DataFrame(list(session.execute("SELECT * FROM optionflowstreaming LIMIT 10")))
+    # df = pd.DataFrame(list(session.execute("SELECT * FROM optionflowstreaming LIMIT 10")))
+    df = pd.DataFrame(list(session.execute("SELECT * FROM optionflowstreaming")))
 
 
     display_df_html_t = df.to_html(index=True, header=False, justify='left')
