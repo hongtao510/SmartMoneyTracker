@@ -31,7 +31,7 @@ import pandas
 
 # import a sample data (intra-day transactions for SPX) for demo
 test = pandas.read_csv('./data/UnderlyingOptionsTradesCalcs_2017-01-03.csv', sep=',')
-test_sub = test[['underlying_symbol', 'quote_datetime', 'expiration', 'strike', 'option_type']]
+# test_sub = test[['underlying_symbol', 'quote_datetime', 'expiration', 'strike', 'option_type']]
 
 # print test_sub.head()
 
@@ -43,11 +43,12 @@ def main():
     # nRecords = int(sys.argv[1])
     nRecords = 10
 
-    producer = KafkaProducer(bootstrap_servers = ['localhost:9092'])
+    # producer = KafkaProducer(bootstrap_servers = ['localhost:9092'])
 
     topic = 'th-topic'
 
     for k in range(10):
+        print k
         # print test_sub.loc[k,], "\n"
     
         # There could be more than 1 record per user per second, so microsecond is added to make each record unique.
@@ -59,24 +60,24 @@ def main():
                          "strike": "%s", \
                          "option_type": "%s"}' \
                          % (time_stamp, 
-                            test.iloc[k, 'underlying_symbol'], 
-                            test.iloc[k, 'quote_datetime'], 
-                            test.iloc[k, 'expiration'],
-                            test.iloc[k,'strike'], 
-                            test.iloc[k, 'option_type'])
+                            test.loc[k, 'underlying_symbol'], 
+                            test.loc[k, 'quote_datetime'], 
+                            test.loc[k, 'expiration'],
+                            test.loc[k,'strike'], 
+                            test.loc[k, 'option_type'])
 
 
-        producer.send(topic, message_info.encode('utf-8'))
+        # producer.send(topic, message_info.encode('utf-8'))
         print message_info
 
         # print ("streaming ", count, "_", userid_field)
     
     
     # block until all async messages are sent
-    producer.flush()
+    # producer.flush()
     
     # configure multiple retries
-    producer = KafkaProducer(retries=5)
+    # producer = KafkaProducer(retries=5)
 
     return
 
