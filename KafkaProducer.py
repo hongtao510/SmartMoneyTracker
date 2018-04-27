@@ -43,7 +43,7 @@ def main():
     # nRecords = int(sys.argv[1])
     nRecords = 10
 
-    # producer = KafkaProducer(bootstrap_servers = ['localhost:9092'])
+    producer = KafkaProducer(bootstrap_servers = ['localhost:9092'])
 
     topic = 'th-topic'
 
@@ -67,17 +67,18 @@ def main():
                             test.loc[k, 'option_type'])
 
 
-        # producer.send(topic, message_info.encode('utf-8'))
+        producer.send(topic, message_info.encode('utf-8'))
         print message_info
+        time.sleep(2)
 
-        # print ("streaming ", count, "_", userid_field)
+        print ("streaming ", count, "_", userid_field)
     
     
     # block until all async messages are sent
-    # producer.flush()
+    producer.flush()
     
     # configure multiple retries
-    # producer = KafkaProducer(retries=5)
+    producer = KafkaProducer(retries=5)
 
     return
 
