@@ -58,9 +58,12 @@ def main():
                          "expiration": "%s", \
                          "strike": "%s", \
                          "option_type": "%s"}' \
-                         % (time_stamp, test['underlying_symbol'], 
-                            test['quote_datetime'], test['expiration'],
-                            test['strike'], test['option_type'])
+                         % (time_stamp, 
+                            test.iloc[k, 'underlying_symbol'], 
+                            test.iloc[k, 'quote_datetime'], 
+                            test.iloc[k, 'expiration'],
+                            test.iloc[k,'strike'], 
+                            test.iloc[k, 'option_type'])
 
 
         producer.send(topic, message_info.encode('utf-8'))
