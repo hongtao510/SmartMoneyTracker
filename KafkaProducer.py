@@ -24,8 +24,7 @@ from kafka import KafkaProducer
 import time
 import pandas
 import config
-# configuration file
-# import config
+
 
 # import a sample data (intra-day transactions for SPX) for demo
 test = pandas.read_csv('./data/UnderlyingOptionsTradesCalcs_2017-01-03.csv', sep=',')
