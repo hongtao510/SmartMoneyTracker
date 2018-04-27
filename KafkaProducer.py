@@ -60,7 +60,7 @@ def main():
         test_sub_dict = test_sub.loc[k,].to_dict()
         test_sub_dict['time_sent_kafka'] = time_stamp
 
-        producer.send(topic, test_sub_dict.encode('utf-8'))
+        producer.send(topic, test_sub_dict.to_json.encode('utf-8'))
         print test_sub_dict
 
         # print ("streaming ", count, "_", userid_field)
