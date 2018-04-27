@@ -55,8 +55,10 @@ def main():
     
         # There could be more than 1 record per user per second, so microsecond is added to make each record unique.
         time_stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %f")
-        test_sub['time_sent_kafka'] = time_stamp
-        producer.send(topic, time_field.encode('utf-8'))
+        test_sub_dict = test_sub.loc[k,].to_dict()
+        test_sub_dict['time_sent_kafka'] = time_stamp
+
+        producer.send(topic, test_sub_dict.encode('utf-8'))
         print test_sub.loc[k,].to_dict()
 
         # print ("streaming ", count, "_", userid_field)
