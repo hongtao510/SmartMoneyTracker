@@ -11,17 +11,22 @@ Options are one of the most versatile trading instruments, which offer a high-le
   identify the biggest change in open interest for equity options and new trades made by major players, which provide insights for swing trades.
 
 ### Which technologies are well-suited to solve those challenges? 
- 1. Options transaction flow data handling requirement: high-throughput, low-latency platform for handling real-time data feeds. 
-	* Proposed solution: Kafka + Flink
+ * Options transaction flow data handling requirement: high-throughput, low-latency platform for handling real-time data feeds. 
+   * Proposed solution: Kafka + Flink
 
-### What are the primary engineering challenges? Why would a Data Engineering Hiring Manager care about this project
+### What are the primary engineering challenges? Why would a Data Engineering Hiring Manager care about this project?
+ * Learn a number of new tools/platform in a short term, and use them to solve a real world problem.
 
 ### Proposed architecture
 ![alt text](image/flow_chart.png "Proposed architecture")
 
 ### What are the (quantitative) specifications/constraints for this project?
- 1. Methods used to unusual options activity
-	* Donoho, Steve. "Early detection of insider trading in option markets." Proceedings of the tenth ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2004.
+ * Methods used to unusual options activity are based on Donoho, Steve. "Early detection of insider trading in option markets." Proceedings of the tenth ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2004.
+   * High Option Volume
+   * Call-Put Imbalance
+   * Jump of Implied Volatility (IV)
 
+### DEMO URL
+http://ec2-54-70-255-243.us-west-2.compute.amazonaws.com/
 
 [infinite leverage]: <https://www.quora.com/How-much-leverage-can-I-expect-from-an-options-trade>

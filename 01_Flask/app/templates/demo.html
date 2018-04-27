@@ -12,13 +12,15 @@
 
 		<table>
 			<tr>
-				<td>Below will change after pressing F5 (hopefully)</td>
+				<td>Below will change after pressing F5 (hopefully)</td><td></td>
 			</tr>
-			{% with messages = get_flashed_messages() %}
+			<tr>
+				<td>Total # record</td><td>{{count}}</td>
+			</tr>
 		</table>
 
-		</table>
-
+		<b>A quick view of what we got</b>
+		{{ table|safe }}
 	</body>
 
 </html>
