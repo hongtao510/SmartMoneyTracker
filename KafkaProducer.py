@@ -32,15 +32,10 @@ import pandas
 # import a sample data (intra-day transactions for SPX) for demo
 test = pandas.read_csv('./data/UnderlyingOptionsTradesCalcs_2017-01-03.csv', sep=',')
 test_sub = test[['underlying_symbol', 'quote_datetime', 'expiration', 'strike', 'option_type']]
-test_sub.strike.apply(str)
-
-# test_sub = test[['underlying_symbol']]
 
 # print test_sub.head()
 
 
-
-# 2017-01-03 09:30:03.350
 
 
 def main():
@@ -57,11 +52,19 @@ def main():
     
         # There could be more than 1 record per user per second, so microsecond is added to make each record unique.
         time_stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %f")
-        test_sub_dict = test_sub.loc[k,].to_dict()
-        test_sub_dict['time_sent_kafka'] = time_stamp
+        message_info = '{"time_sent_kafka": "%s", \
+                         "underlying_symbol": "%s", \
+                         "quote_datetime": "%s", \
+                         "expiration": "%s", \
+                         "strike": "%s", \
+                         "option_type": "%s"}' \
+                         % (time_stamp, test['underlying_symbol'], 
+                            test['quote_datetime'], test['expiration'],
+                            test['strike'], test['option_type'])
 
-        producer.send(topic, test_sub_dict.to_json.encode('utf-8'))
-        print test_sub_dict
+
+        producer.send(topic, message_info.encode('utf-8'))
+        print message_info
 
         # print ("streaming ", count, "_", userid_field)
     
