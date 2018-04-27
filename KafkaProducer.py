@@ -69,9 +69,7 @@ def main():
 
         producer.send(topic, message_info.encode('utf-8'))
         print message_info
-        time.sleep(2)
-
-        print ("streaming ", count, "_", userid_field)
+        time.sleep(1)
     
     
     # block until all async messages are sent
