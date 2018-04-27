@@ -32,6 +32,8 @@ import pandas
 # import a sample data (intra-day transactions for SPX) for demo
 test = pandas.read_csv('./data/UnderlyingOptionsTradesCalcs_2017-01-03.csv', sep=',')
 test_sub = test[['underlying_symbol', 'quote_datetime', 'expiration', 'strike', 'option_type']]
+test_sub.strike.apply(str)
+
 # test_sub = test[['underlying_symbol']]
 
 # print test_sub.head()
@@ -58,8 +60,8 @@ def main():
         test_sub_dict = test_sub.loc[k,].to_dict()
         test_sub_dict['time_sent_kafka'] = time_stamp
 
-        producer.send(topic, test_sub_dict)
-        print test_sub.loc[k,].to_dict()
+        producer.send(topic, test_sub_dict.encode('utf-8'))
+        print test_sub_dict
 
         # print ("streaming ", count, "_", userid_field)
     
