@@ -2,3 +2,4 @@
 [Tt]humbs.db
 *.DS_Store
 config.py
+*.pyc
