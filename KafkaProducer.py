@@ -24,33 +24,43 @@ import sys
 import datetime
 from kafka import KafkaProducer
 import time
+import pandas
 
 # configuration file
 # import config
 
+# import a sample data (intra-day transactions for SPX) for demo
+test = pandas.read_csv('./data/UnderlyingOptionsTradesCalcs_2017-01-03.csv', sep=',')
+test_sub = test[['underlying_symbol', 'quote_datetime', 'expiration', 'strike', 'option_type']]
+# test_sub = test[['underlying_symbol']]
+
+# print test_sub.head()
+
+
+
+# 2017-01-03 09:30:03.350
+
 
 def main():
     # number of users in the system
-    nRecords = int(sys.argv[1])
-    
-    producer = KafkaProducer(bootstrap_servers = ['localhost:9092'])
-    topic = 'th-topic'
+    # nRecords = int(sys.argv[1])
+    nRecords = 10
 
-    count = 0
-    while count<=nRecords:
+    producer = KafkaProducer(bootstrap_servers = ['localhost:9092'])
+
+    topic = 'th-topic'
+    ount = 0
+
+    for k in range(10):
+        # print test_sub.loc[k,], "\n"
+        print test_sub.loc[k,].to_dict()
     
-        for userid_field in range(nRecords):
-            time= datetime.datetime.now() 
-    
-            # There could be more than 1 record per user per second, so microsecond is added to make each record unique.
-            time_field = time.strftime("%Y-%m-%d %H:%M:%S %f")
-    
-            message_info = '{"userid": "%s", "time": "%s"}' \
-                           % (userid_field, time_field)
-        
-            producer.send(topic, message_info.encode('utf-8'))
-    		print ("streaming ", count, "_", userid_field)
-            count += 1
+        # There could be more than 1 record per user per second, so microsecond is added to make each record unique.
+        time_field = time.strftime("%Y-%m-%d %H:%M:%S %f")
+        test_sub['time_sent_kafka'] = time_field
+        producer.send(topic, time_field.encode('utf-8'))
+        # print ("streaming ", count, "_", userid_field)
+        count += 1
     
     
     # block until all async messages are sent
@@ -63,5 +73,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main() 
 
