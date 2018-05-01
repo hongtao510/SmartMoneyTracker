@@ -10,6 +10,7 @@ import config
 
 if __name__ == "__main__":
 	cluster = Cluster(config.Config().cass_cluster_IP)
+	
 	session = cluster.connect()
 
 	# create a keyspace (like database in RDB)
@@ -19,7 +20,7 @@ if __name__ == "__main__":
 	session.execute("USE demo1")
 
 	# create a table
-	#session.execute("CREATE TABLE optionflowstreaming(time_sent_kafka text, underlying_symbol text, quote_datetime text, expiration text, strike text, option_type text, PRIMARY KEY(time_sent_kafka))")
+	# session.execute("CREATE TABLE optionflowstreaming(time_sent_kafka text, underlying_symbol text, quote_datetime text, expiration text, strike text, option_type text, PRIMARY KEY(time_sent_kafka))")
 	# session.execute("INSERT INTO optionflowstreaming (time_sent_kafka, underlying_symbol, quote_datetime, expiration, strike, option_type) VALUES (%s, %s, %s, %s, %s, %s)", ("2018-04-27 05:04:57 777777", "^SPX", "2017-01-03 14:01:47.825", "2017-01-03", "2050.0", "C"))
 
 
