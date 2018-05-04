@@ -20,16 +20,8 @@ def landingpage():
     return render_template('landingpage.html')
 
 
-@app.route('/realtime/<ticker>')
-def realtime_monitor(ticker):
-#     # print(app.config['cass_cluster_IP'], file=sys.stderr)
-    # cql_str = '''SELECT * FROM optionflowstreaming3 WHERE underlying_symbol=' '''+ticker+''' ' ORDER BY total_prem DESC
-    # '''
-# #     response = session.execute(stmt, parameters=[metric])
-    # rows = session.execute(cql_str)
-#     total_n = session.execute("SELECT COUNT(*) FROM optionflowstreaming;")
-
-#     # df = pd.DataFrame(list(session.execute("SELECT * FROM optionflowstreaming LIMIT 10")))
+@app.route('/realtime')
+def realtime_monitor():
     df = pd.DataFrame(list(session.execute('''SELECT underlying_symbol, total_prem, strike, option_type, expiration, quote_datetime, buy_sell, days_to_exp, trade_delta, z_score
      FROM optionflowstreaming3 WHERE underlying_symbol='DJX' ORDER BY total_prem DESC''')))
 

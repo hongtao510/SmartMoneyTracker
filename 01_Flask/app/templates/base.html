@@ -14,9 +14,9 @@
 
 
     {% if title %}
-    <title>{{ title }} - DoCTER</title>
+    <title>{{ title }} - Smart Money Tracker</title>
     {% else %}
-    <title>DoCTER</title>
+    <title>Smart Money Tracker</title>
     {% endif %}
     </head>
 
@@ -39,7 +39,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                   <ul class="nav navbar-nav">
-                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="{{ url_for('realtime_monitor') }}">Realtime monitor</a></li>
                     <li><a href="#">Tutorials</a></li>
                     <li><a href="#">About</a></li>
                   </ul>
