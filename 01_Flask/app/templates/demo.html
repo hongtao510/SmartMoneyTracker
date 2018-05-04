@@ -1,31 +1,29 @@
-<!doctype html>
-<meta http-equiv="refresh" content="5" />
+{% extends "base.html" %}
 
-	<head>
+{% block content %}
+<!-- <meta http-equiv="refresh" content="5" /> -->
+<div class="container">
 
 		<title>
 			DEMO
 		</title>
 
-	</head>
-
-	<body>
-
-		<table>
-			<tr>
-				<td>Below will change after pressing F5 (hopefully)</td><td></td>
-			</tr>
-			<tr>
-				<td>Total # record</td><td>{{count}}</td>
-			</tr>
-		</table>
-
-		<b>A quick view of what we got</b>
+    <div class="doc-output">
+      <h2>A quick view of what we got</h2>
 		{{ table|safe }}
+    </div>
 
+    <div class="doc-output">
 		<p>
-			<img style="width: 700px; height: 340px;" src="http://www.finviz.com/fut_chart.ashx?t=ES&amp;cot=138741,13874A&amp;p=m5">
+			<img style="width: 700px; height: 340px;" src="http://www.finviz.com/fut_chart.ashx?t=YM&amp;cot=138741,13874A&amp;p=m5">
 		</p>
-	</body>
+    </div>
+  </div>
+<style type="text/css">
+    .dataframe td, .dataframe th {
+      min-width: 20px;
+      height: 30px;
+  }
 
-</html>
+</style>
+{% endblock %}

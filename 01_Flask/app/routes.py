@@ -9,31 +9,36 @@ from app import app
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(os.path.dirname(currentdir))
 sys.path.insert(0,parentdir) 
-
 import config
 
 cluster = Cluster(config.Config().cass_cluster_IP)
-session = cluster.connect('demo1')
+session = cluster.connect('demo2')
 
 @app.route('/')
 @app.route('/index')
-def index():
-    # print(app.config['cass_cluster_IP'], file=sys.stderr)
-    stmt = '''SELECT event_time, ip, visits from visit_rank WHERE type = %s and event_time = \'" + previous_minute + "\''''
-#     response = session.execute(stmt, parameters=[metric])
-    rows = session.execute("SELECT * FROM optionflowstreaming LIMIT 10")
-    total_n = session.execute("SELECT COUNT(*) FROM optionflowstreaming;")
-
-    # df = pd.DataFrame(list(session.execute("SELECT * FROM optionflowstreaming LIMIT 10")))
-    df = pd.DataFrame(list(session.execute("SELECT * FROM optionflowstreaming")))
+def landingpage():
+    return render_template('landingpage.html')
 
 
-    display_df_html_t = df.to_html(index=True, header=False, justify='left')
+@app.route('/realtime/<ticker>')
+def realtime_monitor(ticker):
+#     # print(app.config['cass_cluster_IP'], file=sys.stderr)
+    # cql_str = '''SELECT * FROM optionflowstreaming3 WHERE underlying_symbol=' '''+ticker+''' ' ORDER BY total_prem DESC
+    # '''
+# #     response = session.execute(stmt, parameters=[metric])
+    # rows = session.execute(cql_str)
+#     total_n = session.execute("SELECT COUNT(*) FROM optionflowstreaming;")
+
+#     # df = pd.DataFrame(list(session.execute("SELECT * FROM optionflowstreaming LIMIT 10")))
+    df = pd.DataFrame(list(session.execute('''SELECT underlying_symbol, total_prem, strike, option_type, expiration, quote_datetime, buy_sell, days_to_exp, trade_delta, z_score
+     FROM optionflowstreaming3 WHERE underlying_symbol='DJX' ORDER BY total_prem DESC''')))
+
+    display_df_html_t = df.to_html(index=True, header=True, justify='center')
 
     # for row in rows:
     #     flash('You were successfully logged in')
     #     print(type(row), file=sys.stderr)
 
     
-    return render_template('demo.html', count=total_n[0], table=display_df_html_t)
+    return render_template('demo.html', table=display_df_html_t)
 
