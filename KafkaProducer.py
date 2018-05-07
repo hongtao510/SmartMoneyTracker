@@ -10,30 +10,30 @@ import streaming_intraday
 import json 
 
 ############################################################
-# This python script is a producer for kafka. It creates 
-# random user data and send to kafka. The data is in JSON
+# This python script is a producer for kafka. It receives  
+# streaming option transaction data from S3 (csv file) and 
+# send to kafka. The data is in JSON
 # format. Here is the schema:
 #
 # 
-#
-# The parameters
-# config.KAFKA_SERVERS: public DNS and port of the servers
-# config.ANOMALY_PERIOD: How often to create an outlier  
-# config.ANOMALY_VALUE: The value to add to create an outlier
-# were written in a separate "config.py".
 ############################################################
 
 def main():
-    S3_KEY = config.Config().S3_KEY
-    S3_SECRET = config.Config().S3_SECRET
-    S3_BUCKET = config.Config().S3_BUCKET
+    # load pre-defined settingsß
+    config_pool = config.Config()
+    S3_KEY = config_pool.S3_KEY
+    S3_SECRET = config_pool.S3_SECRET
+    S3_BUCKET = config_pool.S3_BUCKET
+    num_record = config_pool.num_record_streamed
+    intraday_fname = config_pool.config_pool
+    bootstrap_servers_address = config_pool.bootstrap_servers_address
+    kafka_topic = config_pool.kafka_topic
 
-    obj_stream = streaming_intraday.S3ObjectInterator(S3_KEY, S3_SECRET, S3_BUCKET, "intraday_subset.csv")
-    num_record = 20000
+    # create a streaming object from S3
+    obj_stream = streaming_intraday.S3ObjectInterator(S3_KEY, S3_SECRET, S3_BUCKET, intraday_fname)
 
     # setup Kafka producer and topic
-    producer = KafkaProducer(bootstrap_servers = [config.Config().bootstrap_servers])
-    topic = config.Config().kafka_topic
+    producer = KafkaProducer(bootstrap_servers = [bootstrap_servers_address])
 
     k=0
     for line in obj_stream:
@@ -44,14 +44,14 @@ def main():
                 message_info = streaming_intraday.streaminglinestodict(list_temp)
                 message_info = json.dumps(message_info).encode('utf-8')
                 print "msg=", k, message_info
-                producer.send(topic, message_info.encode('utf-8'))
-                time.sleep(0.2)
+                producer.send(kafka_topic, message_info.encode('utf-8'))
+                time.sleep(1)
                 print "\n"
             k+=1
             if k==num_record:
                 break
         except:
-            pass
+            print "running into an error in kafka producer, but it is OK..."
 
     # block until all async messages are sent
     # producer.flush()
