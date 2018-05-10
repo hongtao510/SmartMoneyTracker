@@ -7,17 +7,17 @@
 		<title>
 			DEMO
 		</title>
-
+    <div class="doc-output">
+    <p>
+      <img style="width: 700px; height: 340px;" src="http://www.finviz.com/chart.ashx?t=AAPL&ty=c&ta=1&p=d&s=l">
+    </p>
+    </div>
     <div class="doc-output">
       <h2>A quick view of what we got</h2>
 		{{ table|safe }}
     </div>
 
-    <div class="doc-output">
-		<p>
-			<img style="width: 700px; height: 340px;" src="http://www.finviz.com/fut_chart.ashx?t=YM&amp;cot=138741,13874A&amp;p=m5">
-		</p>
-    </div>
+
   </div>
 <style type="text/css">
     .dataframe td, .dataframe th {
@@ -27,3 +27,4 @@
 
 </style>
 {% endblock %}
+

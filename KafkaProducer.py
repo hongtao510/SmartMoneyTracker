@@ -19,13 +19,13 @@ import json
 ############################################################
 
 def main():
-    # load pre-defined settingsß
+    # load pre-defined settings
     config_pool = config.Config()
     S3_KEY = config_pool.S3_KEY
     S3_SECRET = config_pool.S3_SECRET
     S3_BUCKET = config_pool.S3_BUCKET
     num_record = config_pool.num_record_streamed
-    intraday_fname = config_pool.config_pool
+    intraday_fname = config_pool.intraday_fname
     bootstrap_servers_address = config_pool.bootstrap_servers_address
     kafka_topic = config_pool.kafka_topic
 
@@ -45,7 +45,7 @@ def main():
                 message_info = json.dumps(message_info).encode('utf-8')
                 print "msg=", k, message_info
                 producer.send(kafka_topic, message_info.encode('utf-8'))
-                time.sleep(1)
+                # time.sleep(0.1)
                 print "\n"
             k+=1
             if k==num_record:

@@ -9,6 +9,7 @@ import config
 import datetime
 import pytz
 import time
+import pandas as pd 
 
 # quote_datetime = datetime.datetime.strptime("2018-01-02 10:20:06.200", "%Y-%m-%d %I:%M:%S.%f")
 # unixtime = time.mktime(quote_datetime.timetuple())
@@ -21,26 +22,33 @@ if __name__ == "__main__":
     session = cluster.connect()
 
     ### create a keyspace (like database in RDB)
-    # session.execute("CREATE KEYSPACE demo2 WITH replication={'class': 'SimpleStrategy', 'replication_factor': '1'}")
+    # session.execute("CREATE KEYSPACE demo1 WITH replication={'class': 'SimpleStrategy', 'replication_factor': '1'}")
 
     ### choose a keyspace
-    session.execute("USE demo2")
+    session.execute("USE demo1")
 
+    ######################
     ### create a table
-    # session.execute('''CREATE TABLE optionflowstreaming3(
-    #   underlying_symbol text, quote_datetime timestamp, expiration timestamp, strike float, option_type text, 
-    #   unusual text, trade_size int, total_prem float, z_score float, buy_sell text, 
-    #   best_bid float, best_ask float, trade_price float, days_to_exp int, error text,
-    #   exp_bin text, delta_bin text, trade_delta float, trade_iv float, trade_condition_id int,
-    #   canceled_trade_condition_id int, PRIMARY KEY((underlying_symbol), total_prem, expiration, quote_datetime))''')
+    ######################
+    session.execute('''CREATE TABLE IF NOT EXISTS intrawindow(
+      underlying_symbol text, quote_datetime timestamp, option_type text, 
+      cum_delta float, PRIMARY KEY((underlying_symbol), quote_datetime, option_type, cum_delta))''')
 
 
-    # session.execute('''CREATE TABLE optionflowstreaming2(
-    #   underlying_symbol text, quote_datetime timestamp, expiration timestamp, strike float, option_type text, 
-    #   unusual text, trade_size int, total_prem float, z_score float, buy_sell text, 
-    #   best_bid float, best_ask float, trade_price float, days_to_exp int, error text,
-    #   exp_bin text, delta_bin text, trade_delta float, trade_iv float, trade_condition_id int,
-    #   canceled_trade_condition_id int, PRIMARY KEY((underlying_symbol), expiration, strike, option_type, quote_datetime))''')
+    session.execute('''CREATE TABLE IF NOT EXISTS optionflowstreaming3(
+      underlying_symbol text, quote_datetime timestamp, expiration timestamp, strike float, option_type text, 
+      unusual text, trade_size int, total_prem float, z_score float, buy_sell text, 
+      best_bid float, best_ask float, trade_price float, days_to_exp int, error text,
+      exp_bin text, delta_bin text, trade_delta float, trade_iv float, trade_condition_id int,
+      canceled_trade_condition_id int, PRIMARY KEY((underlying_symbol), total_prem, expiration, quote_datetime))''')
+
+
+    # session.execute('''INSERT INTO intrawindow (underlying_symbol, quote_datetime, option_type, 
+    #                  cum_delta) 
+    #                  VALUES (%s, %s, %s, %s)''', 
+    #                    ("DJX", "2018-01-02 09:31:00", "call", -12.90)
+    #                 )
+
 
 
     # session.execute('''INSERT INTO optionflowstreaming3 (underlying_symbol, quote_datetime, expiration, strike, option_type, 
@@ -89,13 +97,27 @@ if __name__ == "__main__":
 
 
 
-    # # # To retrieve what I have just inserted:
+    ## To retrieve what I have just inserted:
     # rows = session.execute('''SELECT * FROM optionflowstreaming3 WHERE underlying_symbol='DJX' ORDER BY total_prem DESC''')
-    rows = session.execute('''TRUNCATE optionflowstreaming3''')
+    rows = session.execute('''SELECT * FROM intrawindow''')
 
-    for row in rows:
-        print row.__dict__
+    ## Delete table
+    # session.execute('''DROP TABLE intrawindow;''')
 
+
+    ## remove all rows but keep schema
+    # rows = session.execute('''TRUNCATE intrawindow''')
+
+    df = pd.DataFrame(list(rows))
+
+    print df 
+    # for row in rows:
+    #     print row, type(row), len(row)
+        # print row[0], row[1], row[2], round(row[3], 2)
+        # print row['underlying_symbol'], datetime.datetime.strptime(row['quote_datetime'], "%Y-%m-%d %I:%M:%S"), row['option_type'], row['cum_delta']
+        # print row.__dict__
+
+# OrderedDict([('underlying_symbol', u'FDX'), ('quote_datetime', datetime.datetime(2018, 1, 2, 11, 29)), ('option_type', u'put'), ('cum_delta', -1.1799999475479126)])
 
     # session.execute("CREATE TABLE metrics (type text, event_time timestamp, value int, PRIMARY KEY (type, event_time))")
     # session.execute("CREATE TABLE visit_rank (type text, event_time timestamp, rank int, ip text, visits int, PRIMARY KEY (type, event_time, rank))")

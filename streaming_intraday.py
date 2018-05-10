@@ -108,7 +108,26 @@ def caldelta(dict_temp):
 
 
 def streaminglinestodict(raw_data):
-    '''Function used to con
+    '''Function used to parse streamed in data
+        #0 underlying_symbol
+        #1 quote_datetime
+        #2 sequence_number
+        #3 root
+        #4 expiration
+        #5 strike
+        #6 option_type
+        #7 exchange_id
+        #8 trade_size
+        #9 trade_price
+        #10 trade_condition_id
+        #11 canceled_trade_condition_id
+        #12 best_bid
+        #13 best_ask
+        #14 trade_iv
+        #15 trade_delta
+        #16 underlying_bid
+        #17 underlying_ask
+        #18 number_of_exchanges
     '''
     dict_temp = {}
     try:
@@ -151,37 +170,31 @@ def streaminglinestodict(raw_data):
     return dict_temp
 
 
-# obj_stream = S3ObjectInterator(S3_KEY, S3_SECRET, S3_BUCKET, "intraday_subset.csv")
+if __name__ == '__main__':
+    import time
+    config_pool = config.Config()
+    S3_KEY = config_pool.S3_KEY
+    S3_SECRET = config_pool.S3_SECRET
+    S3_BUCKET = config_pool.S3_BUCKET
+    num_record = config_pool.num_record_streamed
+    intraday_fname = config_pool.intraday_fname
 
-# k=0
-# for line in obj_stream:
-#     list_temp = line.split(",")
-#     # print list_temp, type(list_temp)
-#     print streaminglinestodict(list_temp)
-#     print "\n"
-#     k+=1
-#     if k==7:
-#         break
+    obj_stream = S3ObjectInterator(S3_KEY, S3_SECRET, S3_BUCKET, intraday_fname)
+
+    k=0
+    start = time.time()
+    for line in obj_stream:
+        list_temp = line.split(",")
+        # print list_temp, type(list_temp)
+        # print streaminglinestodict(list_temp)
+        # print "\n"
+        k+=1
+        if k==70000:
+            break
+    end = time.time()
+    elapsed = end - start
+    print(elapsed, k)
 
 
-#0 underlying_symbol
-#1 quote_datetime
-#2 sequence_number
-#3 root
-#4 expiration
-#5 strike
-#6 option_type
-#7 exchange_id
-#8 trade_size
-#9 trade_price
-#10 trade_condition_id
-#11 canceled_trade_condition_id
-#12 best_bid
-#13 best_ask
-#14 trade_iv
-#15 trade_delta
-#16 underlying_bid
-#17 underlying_ask
-#18 number_of_exchanges {exchange   bid_size    bid ask_size    ask}[number_of_exchanges]
 
 
