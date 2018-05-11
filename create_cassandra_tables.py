@@ -11,6 +11,16 @@ import pytz
 import time
 import pandas as pd 
 
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+sns.set_style("whitegrid")
+
+
+
+
 # quote_datetime = datetime.datetime.strptime("2018-01-02 10:20:06.200", "%Y-%m-%d %I:%M:%S.%f")
 # unixtime = time.mktime(quote_datetime.timetuple())
 # print quote_datetime, unixtime
@@ -98,24 +108,31 @@ if __name__ == "__main__":
 
 
     ## To retrieve what I have just inserted:
-    # rows = session.execute('''SELECT * FROM optionflowstreaming3 WHERE underlying_symbol='DJX' ORDER BY total_prem DESC''')
-    rows = session.execute('''SELECT * FROM intrawindow''')
+    # rows = session.execute('''SELECT * FROM optionflowstreaming3 WHERE underlying_symbol='SPX' ORDER BY total_prem DESC''')
+
+    # df = pd.DataFrame(list(session.execute('''SELECT underlying_symbol, total_prem, quote_datetime, expiration, buy_sell, option_type, strike, trade_size, z_score FROM optionflowstreaming3 WHERE underlying_symbol='SPX' ORDER BY total_prem DESC LIMIT 10''')))
+
+    # print df
+    #rows = session.execute('''SELECT * FROM intrawindow WHERE underlying_symbol='SPX' ''')
+
+    df = pd.DataFrame(list(session.execute('''SELECT * FROM intrawindow WHERE underlying_symbol='SPX' ''')))
+
+    print df.tail(50)
 
     ## Delete table
     # session.execute('''DROP TABLE intrawindow;''')
 
 
     ## remove all rows but keep schema
-    # rows = session.execute('''TRUNCATE intrawindow''')
+    # rows1 = session.execute('''TRUNCATE intrawindow''')
+    # rows2 = session.execute('''TRUNCATE optionflowstreaming3''')
 
-    df = pd.DataFrame(list(rows))
 
-    print df 
     # for row in rows:
-    #     print row, type(row), len(row)
-        # print row[0], row[1], row[2], round(row[3], 2)
-        # print row['underlying_symbol'], datetime.datetime.strptime(row['quote_datetime'], "%Y-%m-%d %I:%M:%S"), row['option_type'], row['cum_delta']
-        # print row.__dict__
+    # #     print row, type(row), len(row)
+    #     # print row[0], row[1], row[2], round(row[3], 2)
+    #     # print row['underlying_symbol'], datetime.datetime.strptime(row['quote_datetime'], "%Y-%m-%d %I:%M:%S"), row['option_type'], row['cum_delta']
+    #     print row.__dict__
 
 # OrderedDict([('underlying_symbol', u'FDX'), ('quote_datetime', datetime.datetime(2018, 1, 2, 11, 29)), ('option_type', u'put'), ('cum_delta', -1.1799999475479126)])
 
@@ -146,14 +163,3 @@ if __name__ == "__main__":
  u'trade_condition_id': u'35', 
  u'trade_price': u'116.3600'}
 '''
-
-
-# {u'trade_iv': u'0.0876', u'days_to_exp': 3, u'best_bid': u'1.2900', u'exp_bin': u'short', u'buy_sell': u'BUY', u'underlying_symbol': u'DJX', u'quote_datetime': u'2018-01-02 10:37:49.200', u'total_prem': 14796, u'best_ask': u'1.3700', u'unusual': 'yes', u'option_type': u'put', u'z_score': 0.34, u'delta_bin': u'0-20', u'expiration': u'2018-01-05', u'error': u'', u'strike': u'249.000', u'canceled_trade_condition_id': u'0', u'trade_size': u'108', u'trade_delta': u'-0.6912', u'trade_condition_id': u'0', u'trade_price': u'1.3700'}
-
-# {u'trade_iv': u'0.0876', u'days_to_exp': 3, u'best_bid': u'1.2900', u'exp_bin': u'short', u'buy_sell': u'BUY', u'underlying_symbol': u'DJX', u'quote_datetime': u'2018-01-02 10:37:49.200', u'total_prem': 14796, u'best_ask': u'1.3700', u'unusual': 'yes', u'option_type': u'put', u'z_score': 0.34, u'delta_bin': u'0-20', u'expiration': u'2018-01-05', u'error': u'', u'strike': u'249.000', u'canceled_trade_condition_id': u'0', u'trade_size': u'108', u'trade_delta': u'-0.6912', u'trade_condition_id': u'0', u'trade_price': u'1.3700'}
-
-# {u'trade_iv': u'0.0000', u'days_to_exp': 353, u'best_bid': u'116.0000', u'exp_bin': u'long', u'buy_sell': u'SELL', u'underlying_symbol': u'DJX', u'quote_datetime': u'2018-01-02 10:20:06.200', u'total_prem': 1151964, u'best_ask': u'117.3000', u'unusual': 'yes', u'option_type': u'call', u'z_score': 0.28, u'delta_bin': u'40-60', u'expiration': u'2018-12-21', u'error': u'', u'strike': u'130.000', u'canceled_trade_condition_id': u'0', u'trade_size': u'99', u'trade_delta': u'0.5000', u'trade_condition_id': u'35', u'trade_price': u'116.3600'}
-
-# {u'trade_iv': u'0.1900', u'days_to_exp': 717, u'best_bid': u'38.5500', u'exp_bin': u'long', u'buy_sell': u'BUY', u'underlying_symbol': u'DJX', u'quote_datetime': u'2018-01-02 10:20:06.200', u'total_prem': 800514, u'best_ask': u'41.1500', u'unusual': 'yes', u'option_type': u'call', u'z_score': 3.16, u'delta_bin': u'60-80', u'expiration': u'2019-12-20', u'error': u'', u'strike': u'220.000', u'canceled_trade_condition_id': u'0', u'trade_size': u'198', u'trade_delta': u'0.7253', u'trade_condition_id': u'35', u'trade_price': u'40.4300'}
-
-# {u'trade_iv': u'0.1900', u'days_to_exp': 717, u'best_bid': u'38.5500', u'exp_bin': u'long', u'buy_sell': u'BUY', u'underlying_symbol': u'DJX', u'quote_datetime': u'2018-01-02 10:20:06.200', u'total_prem': 800514, u'best_ask': u'41.1500', u'unusual': 'yes', u'option_type': u'call', u'z_score': 3.16, u'delta_bin': u'60-80', u'expiration': u'2019-12-20', u'error': u'', u'strike': u'220.000', u'canceled_trade_condition_id': u'0', u'trade_size': u'198', u'trade_delta': u'0.7253', u'trade_condition_id': u'35', u'trade_price': u'40.4300'}

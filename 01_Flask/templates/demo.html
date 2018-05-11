@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- <meta http-equiv="refresh" content="5" /> -->
+<div class="container">
+
+		<title>
+			DEMO
+		</title>
+<!--     <div class="doc-output">
+    <p>
+      <img style="width: 700px; height: 340px;" src="http://www.finviz.com/chart.ashx?t=ES&ty=c&ta=1&p=d&s=l">
+    </p>
+    </div> -->
+
+    
+
+    <div class="doc-output">
+      <h3>Cumulative Delta</h3>
+      <div id="myDiv"></div>
+      <h3>Top 10 Transactions</h3>
+		  {{ table|safe }}
+    </div>
+
+
+  </div>
+<style type="text/css">
+  .dataframe td, .dataframe th {
+    border: 1px solid #CCC; height: 30px; min-width: 100px;
+  }
+
+  .dataframe th {  
+    background: #F3F3F3; /* Light grey background */
+    font-weight: bold; /* Make sure they're bold */
+}
+
+  .dataframe td {  
+    background: #FAFAFA; /* Lighter grey background */
+    text-align: center; /* Center our text */
+}
+
+
+</style>
+
+<footer>
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+
+    <script type="text/javascript">
+
+
+        var trace1 = {{trace1_data | safe}};
+        var trace2 = {{trace2_data | safe}};
+        var layout = {
+              title: 'Cumulative Delta Over Interval',
+              xaxis: {tickfont: {
+                  size: 14
+                }}, 
+              yaxis: {
+                title: 'Cumulative Delta',
+                titlefont: {
+                  size: 16
+                }, 
+                tickfont: {
+                  size: 14
+                }
+              }, 
+              barmode: 'group', 
+              bargap: 0.15, 
+              bargroupgap: 0.1
+            };
+
+        var data = [trace1, trace2];
+        Plotly.newPlot('myDiv', data, layout);
+    </script>
+</footer>
+{% endblock %}
+
