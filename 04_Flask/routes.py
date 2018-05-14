@@ -9,8 +9,8 @@ from flask_config import Config
 from werkzeug.serving import WSGIRequestHandler
 import json
 import plotly
-import plotly.plotly as py  
-import plotly.tools as tls   
+import plotly.plotly as py
+import plotly.tools as tls
 import plotly.graph_objs as go
 
 
@@ -75,18 +75,19 @@ def realtime_monitor(ticker):
         df_tbl_1["Transaction Time"] = df_tbl_1["Transaction Time"].apply(lambda x: x.replace(microsecond=0))
         df_tbl_1['Premium (USD)'] = df_tbl_1['Premium (USD)'].apply(lambda x: "{:,}".format(x))
         df_tbl_1_html = df_tbl_1.to_html(index=False, header=True)
-        # print (df_tbl_1_html, file=sys.stderr)
+        print (df_tbl_1, file=sys.stderr)
 
         ########################
         ### populate table 2
         ########################
         cql_str2 = '''SELECT * FROM intrawindow WHERE underlying_symbol=%s ORDER BY quote_datetime DESC LIMIT 100''' %(ticker_str)
-        
         df1 = pd.DataFrame(list(session.execute(cql_str2)))
-        # print (df1.head(), file=sys.stderr)
+        
 
         # prepare for plot
         df2 = df1.groupby(['quote_datetime', 'option_type'])[["cum_delta"]].sum().reset_index()
+        # print (df2.head(), file=sys.stderr)
+
         # if includes weekend or cross days, just drop them
         n_row = len(df2.index)
         df2_date_first = df2.loc[0, 'quote_datetime']
@@ -122,8 +123,8 @@ def realtime_monitor(ticker):
         return render_template("404.html")
 
 if __name__ == '__main__':
-    app.run(host= '0.0.0.0', port=80, threaded=True)
-    # app.run(debug=True, threaded=True) 
+    # app.run(host= '0.0.0.0', port=80, ebug=True, threaded=True)
+    app.run(debug=True, threaded=True) 
 
 
 

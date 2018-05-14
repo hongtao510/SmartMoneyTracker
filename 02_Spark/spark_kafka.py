@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 import sys
-from pyspark import SparkContext
+from pyspark import SparkContext, SparkConf
 from pyspark.streaming import StreamingContext
 from pyspark.streaming.kafka import KafkaUtils
 import json
@@ -26,9 +26,6 @@ Some references:
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
-
-
 
 
 def sparkrowtodict(row):
@@ -259,8 +256,15 @@ def cassandra_tbl2(rdd):
 
 if __name__ == "__main__":
     config_pool = config.Config()
-    sc = SparkContext(appName="PythonStreamingDirectKafka")
-    ssc = StreamingContext(sc, 5)
+    # sc = SparkContext(appName="PythonStreamingDirectKafka")
+
+    conf = SparkConf().setAppName("PythonStreamingDirectKafka")\
+            .set("spark.streaming.backpressure.enabled", "true") \
+            .set("spark.streaming.backpressure.initialRate", "500")
+
+    sc = SparkContext(conf=conf)
+
+    ssc = StreamingContext(sc, 10)
     ssc.checkpoint("/home/ubuntu/SmartMoneyTracker/spark_check/")
 
     ##############################################

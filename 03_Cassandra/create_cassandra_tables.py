@@ -100,7 +100,7 @@ if __name__ == "__main__":
     ######################################
     ## To retrieve what I have just inserted:
     ######################################
-    # rows = session.execute('''SELECT * FROM optionflowstreaming3 WHERE underlying_symbol='SPX' ORDER BY total_prem DESC''')
+    rows = session.execute('''SELECT * FROM optionflowstreaming3 WHERE underlying_symbol='AAPL' ORDER BY total_prem DESC''')
 
     # df = pd.DataFrame(list(session.execute('''SELECT underlying_symbol, total_prem, quote_datetime, expiration, buy_sell, option_type, strike, trade_size, z_score FROM optionflowstreaming3 WHERE underlying_symbol='SPX' ORDER BY total_prem DESC LIMIT 10''')))
     # print df
@@ -117,11 +117,11 @@ if __name__ == "__main__":
     # rows1 = session.execute('''TRUNCATE intrawindow''')
     # rows2 = session.execute('''TRUNCATE optionflowstreaming3''')
 
-    # for row in rows:
+    for row in rows:
     # #     print row, type(row), len(row)
-    #     # print row[0], row[1], row[2], round(row[3], 2)
+        print row[0], row[1], row[2], row[3]
     #     # print row['underlying_symbol'], datetime.datetime.strptime(row['quote_datetime'], "%Y-%m-%d %I:%M:%S"), row['option_type'], row['cum_delta']
-    #     print row.__dict__
+        # print row.__dict__
 
 
     # session.execute("CREATE TABLE metrics (type text, event_time timestamp, value int, PRIMARY KEY (type, event_time))")

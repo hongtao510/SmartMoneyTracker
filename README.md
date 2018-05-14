@@ -1,18 +1,19 @@
 # SmartMoneyTracker
 
 ### Project Idea 
-An open-source data pipeline to analyze and visualize abnormal events and notify users in real-time.
+An open-source data pipeline to detect and visualize abnormal options transations in real-time.
+
+| [DEMO URL]        | [DEMO Video]           | [DEMO Slides]  |
+| ------------- |:-------------:| -----:|
+
 
 ### What is the purpose, and most common use cases?
 Options are one of the most versatile trading instruments, which offer a high-leverage approach to trading. For instance, you can construct a zero dollar option trade by selling calls and buying puts at the right strikes to effectively achieve [infinite leverage]. However, some strategies (e.g., selling unprotected options) could lead to unlimited risk. As a results, it is worth to follow the "smart money", which is controlled by institutional investors, market mavens and other financial professionals. 
- * `Use case`: Detect unusual options activity (e.g., abnormal volume) in realtime (for short term traders), and end-of-day review and analysis:
-
-
-  identify the biggest change in open interest for equity options and new trades made by major players, which provide insights for swing trades.
+ * `Use case`: Detect unusual options activity (e.g., abnormal volume) in real-time
 
 ### Which technologies are well-suited to solve those challenges? 
- * Options transaction flow data handling requirement: high-throughput, low-latency platform for handling real-time data feeds. 
-   * Proposed solution: Kafka + Spark Streaming
+ * Since options transaction flow data handling requirement: high-throughput, low-latency platform for handling real-time data feeds. 
+ * Proposed solution: Kafka + Spark Streaming
 
 ### What are the primary engineering challenges? Why would a Data Engineering Hiring Manager care about this project?
  * Learn and understand a number of new tools/platforms in a three weeks, as well as be able to employ them to solve a real world problem.
@@ -27,7 +28,8 @@ Options are one of the most versatile trading instruments, which offer a high-le
    * Buy or Sell Detection 
    * Jump of Implied Volatility (IV)
 
-### DEMO URL
-http://ec2-54-70-255-243.us-west-2.compute.amazonaws.com/
-
 [infinite leverage]: <https://www.quora.com/How-much-leverage-can-I-expect-from-an-options-trade>
+
+[DEMO URL]:<http://34.210.127.237/>
+[DEMO Video]:<https://www.youtube.com/watch?v=mJukqayAOfQ>
+[DEMO Slides]:<(https://docs.google.com/presentation/d/1rmPZ3yn8v1wVPmQpO3PrXiSrp4Whpdf9j-Li9xx3UVQ/edit?usp=sharing>
