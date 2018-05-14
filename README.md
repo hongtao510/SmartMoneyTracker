@@ -32,4 +32,4 @@ Options are one of the most versatile trading instruments, which offer a high-le
 
 [DEMO URL]:<http://34.210.127.237/>
 [DEMO Video]:<https://www.youtube.com/watch?v=mJukqayAOfQ>
-[DEMO Slides]:<(https://docs.google.com/presentation/d/1rmPZ3yn8v1wVPmQpO3PrXiSrp4Whpdf9j-Li9xx3UVQ/edit?usp=sharing>
+[DEMO Slides]:<https://docs.google.com/presentation/d/1rmPZ3yn8v1wVPmQpO3PrXiSrp4Whpdf9j-Li9xx3UVQ/edit?usp=sharing>
