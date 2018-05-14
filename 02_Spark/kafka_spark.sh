@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/local/spark/bin/spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.0.2 --py-files ~/SmartMoneyTracker/config.py --master spark://34.218.61.234:7077 --deploy-mode client --executor-memory 4500m --driver-memory 5500m ~/SmartMoneyTracker/spark_kafka.py
