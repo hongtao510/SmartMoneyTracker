@@ -3,6 +3,9 @@
 ### Project Idea 
 An open-source data pipeline to detect and visualize abnormal options transations in real-time.
 
+![alt text](image/site_img1.png "Screenshot of User Interface 1")
+![alt text](image/site_img2.png "Screenshot of User Interface 2")
+
 | [DEMO URL]        | [DEMO Video]           | [DEMO Slides]  |
 | ------------- |:-------------:| -----:|
 

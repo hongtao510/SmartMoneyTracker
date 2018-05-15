@@ -97,6 +97,7 @@ def getSparkSessionInstance(sparkConf):
             .getOrCreate()
     return globals()["sparkSessionSingletonInstance"]
 
+
 def cassandra_tbl1(raw_data):
     '''
         function used to save to cassandra database
@@ -256,15 +257,14 @@ def cassandra_tbl2(rdd):
 
 if __name__ == "__main__":
     config_pool = config.Config()
-    # sc = SparkContext(appName="PythonStreamingDirectKafka")
+    sc = SparkContext(appName="PythonStreamingDirectKafka")
 
-    conf = SparkConf().setAppName("PythonStreamingDirectKafka")\
-            .set("spark.streaming.backpressure.enabled", "true") \
-            .set("spark.streaming.backpressure.initialRate", "500")
+    # conf = SparkConf().setAppName("PythonStreamingDirectKafka")\
+    #         .set("spark.streaming.backpressure.enabled", "true") \
+    #         .set("spark.streaming.backpressure.initialRate", "1500")
+    # sc = SparkContext(conf=conf)
 
-    sc = SparkContext(conf=conf)
-
-    ssc = StreamingContext(sc, 10)
+    ssc = StreamingContext(sc, 6)
     ssc.checkpoint("/home/ubuntu/SmartMoneyTracker/spark_check/")
 
     ##############################################

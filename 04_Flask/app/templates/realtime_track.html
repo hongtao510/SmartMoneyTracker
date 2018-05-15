@@ -3,23 +3,17 @@
 {% block content %}
 <meta http-equiv="refresh" content="5" />
 <div class="container">
-
-		<title>
-			DEMO
-		</title>
-<!--     <div class="doc-output">
-    <p>
-      <img style="width: 700px; height: 340px;" src="http://www.finviz.com/chart.ashx?t=ES&ty=c&ta=1&p=d&s=l">
-    </p>
-    </div> -->
-
+    <title>
+        Real-time tracker
+    </title>
     <div class="doc-output">
-      <h3>Top 10 Unusual Transactions</h3>
-      {{ table|safe }}
-      <h3>Cumulative Delta</h3>
-      <div id="myDiv"></div>
+        <h3>Top 10 Unusual Transactions</h3>
+            {{ table|safe }}
+        <h3>Cumulative Delta</h3>
+        <div id="myDiv"></div>
     </div>
 </div>
+
 
 <style type="text/css">
   .dataframe td, .dataframe th {
@@ -35,9 +29,8 @@
     background: #FAFAFA; /* Lighter grey background */
     text-align: center; /* Center our text */
   }
-
-
 </style>
+
 
 <footer>
     <!-- D3.js -->
@@ -46,10 +39,7 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Plotly.js -->
     <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
-
     <script type="text/javascript">
-
-
         var trace1 = {{trace1_data | safe}};
         var trace2 = {{trace2_data | safe}};
         var layout = {

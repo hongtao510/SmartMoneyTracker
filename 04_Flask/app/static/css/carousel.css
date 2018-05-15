@@ -40,6 +40,13 @@
     margin: 100px;
   }
 
+  .track-searchbox {
+    max-width: 1580px;
+    min-width: 1280px;
+    margin: 80px;
+  }
+
+
   .doc-history {
     max-width: 780px;
     margin: 100px;
