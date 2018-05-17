@@ -13,13 +13,16 @@ import plotly.tools as tls
 import plotly.graph_objs as go
 from app import app
 
-# add one level up path
-# sys.path.append("..")
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(os.path.dirname(currentdir))
 sys.path.insert(0,parentdir) 
 import config
 
+########################
+### connect to database
+########################
+cluster = Cluster(config.Config().cass_cluster_IP)
+session = cluster.connect('demo1')
 
 # 404 page
 @app.errorhandler(404)
@@ -54,12 +57,6 @@ def realtime_monitor(ticker):
 
 
     ########################
-    ### connect to database
-    ########################
-    cluster = Cluster(config.Config().cass_cluster_IP)
-    session = cluster.connect('demo1')
-
-    ########################
     ### populate table 1
     ########################
     cql_str1 = '''SELECT underlying_symbol, total_prem, quote_datetime, expiration, buy_sell, option_type, \
@@ -82,7 +79,7 @@ def realtime_monitor(ticker):
     df_tbl_1["Transaction Time"] = df_tbl_1["Transaction Time"].apply(lambda x: x.replace(microsecond=0))
     df_tbl_1['Premium (USD)'] = df_tbl_1['Premium (USD)'].apply(lambda x: "{:,}".format(x))
     df_tbl_1_html = df_tbl_1.to_html(index=False, header=True)
-    print (df_tbl_1, file=sys.stderr)
+    # print (df_tbl_1, file=sys.stderr)
 
     ########################
     ### populate table 2
@@ -93,17 +90,20 @@ def realtime_monitor(ticker):
 
     # prepare for plot
     df2 = df1.groupby(['quote_datetime', 'option_type'])[["cum_delta"]].sum().reset_index()
-    # print (df2.head(), file=sys.stderr)
+    print (df2.shape, file=sys.stderr)
+    print (df2.tail(), file=sys.stderr)
 
     # if includes weekend or cross days, just drop them
     n_row = len(df2.index)
     df2_date_first = df2.loc[0, 'quote_datetime']
     df2_date_last = df2.loc[(n_row-1), 'quote_datetime']
     day_dif = abs(df2_date_first.day-df2_date_last.day)
-    print (day_dif, file=sys.stderr)
+    # print (day_dif, file=sys.stderr)
+
     if day_dif>0:
-        df2 = df2.tail(6)
-    # print (df2_date_last.day, file=sys.stderr)
+    	print ("cross day before trim... ", df2.shape, file=sys.stderr)
+        df2 = df2.tail(10)
+    	print ("cross day ", day_dif, file=sys.stderr)
     
     df2_calls = df2.loc[df2['option_type'] == "call"] 
     df2_puts = df2.loc[df2['option_type'] == "put"] 
@@ -124,6 +124,7 @@ def realtime_monitor(ticker):
 
     trace1_JSON = json.dumps(trace1, cls=plotly.utils.PlotlyJSONEncoder)
     trace2_JSON = json.dumps(trace2, cls=plotly.utils.PlotlyJSONEncoder)
+
     return render_template('realtime_track.html', trace1_data=trace1_JSON, trace2_data=trace2_JSON, table=df_tbl_1_html)
     # except Exception as e:
     #     return render_template("404.html")
